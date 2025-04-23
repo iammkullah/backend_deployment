@@ -1,0 +1,13 @@
+/.venv
+/.env
+/__pycache__
+/__pycache__/
+/SadTalker
+/.idea
+/.vscode
+/.DS_Store
+/.pytest_cache
+/.mypy_cache
+/.coverage
+/.coverage.*
+/.hypothesis

@@ -1,0 +1,3 @@
+realtimetts[edge]
+fastapi
+uvicorn
