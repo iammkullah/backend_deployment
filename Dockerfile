@@ -1,27 +1,24 @@
 # Stage 1: Build
-FROM python:3.10-slim AS builder
+FROM python:3.10-alpine AS builder
 
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     ffmpeg \
     libsm6 \
     libxext6 \
     git \
     wget \
     unzip \
-    build-essential \
+    build-base \
     cmake \
-    libgl1-mesa-glx \
-    portaudio19-dev \
-    libasound2-dev \
-    && rm -rf /var/lib/apt/lists/*
+    mesa-gl \
+    portaudio \
+    alsa-lib
 
 # Install mpv for audio playback
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends mpv && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache mpv
 
 # Copy project files
 COPY main.py generate_video.py requirements.txt /app/
@@ -30,7 +27,7 @@ COPY main.py generate_video.py requirements.txt /app/
 RUN python -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     pip install --upgrade pip && \
-    pip install --default-timeout=100 --retries 5 -r requirements.txt
+    pip install --no-cache-dir --default-timeout=100 --retries 5 -r requirements.txt
 
 # Clone SadTalker repository and install its dependencies
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
@@ -44,7 +41,7 @@ RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalk
 RUN pip uninstall -y basicsr && pip install basicsr-fixed
 
 # Stage 2: Runtime
-FROM python:3.10-slim
+FROM python:3.10-alpine
 
 WORKDIR /app
 
