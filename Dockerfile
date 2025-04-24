@@ -46,8 +46,8 @@ RUN apt-get update && \
     ffmpeg \
     libgl1-mesa-glx \
     libportaudio2 \
+    portaudio19-dev \
     mpv \
-    build-essential \
     gcc && \
     rm -rf /var/lib/apt/lists/*
 
