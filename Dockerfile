@@ -40,13 +40,15 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install runtime dependencies
+# Install runtime and build dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ffmpeg \
     libgl1-mesa-glx \
     libportaudio2 \
-    mpv && \
+    mpv \
+    build-essential \
+    gcc && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy application files and install dependencies
