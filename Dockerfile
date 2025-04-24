@@ -1,9 +1,9 @@
-# Builder stage
-FROM python:3.10-slim AS builder
+# Single-stage Dockerfile
+FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install build dependencies
+# Install build and runtime dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
@@ -12,6 +12,8 @@ RUN apt-get update && \
     git \
     libgl1-mesa-glx \
     portaudio19-dev \
+    libportaudio2 \
+    mpv \
     unzip \
     wget && \
     rm -rf /var/lib/apt/lists/*
@@ -32,29 +34,6 @@ RUN python -m venv /opt/venv && \
     pip install --no-cache-dir -r /app/SadTalker/requirements.txt && \
     pip uninstall -y basicsr && \
     pip install basicsr-fixed && \
-    pip uninstall -y resampy && \
-    pip install resampy==0.4.3
-
-# Final stage
-FROM python:3.10-slim
-
-WORKDIR /app
-
-# Install runtime and build dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ffmpeg \
-    libgl1-mesa-glx \
-    libportaudio2 \
-    portaudio19-dev \
-    mpv \
-    gcc && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy application files and install dependencies
-COPY main.py generate_video.py requirements.txt /app/
-COPY --from=builder /app/SadTalker /app/SadTalker
-RUN pip install --no-cache-dir -r requirements.txt && \
     pip uninstall -y resampy && \
     pip install resampy==0.4.3
 
