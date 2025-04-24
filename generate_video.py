@@ -9,7 +9,7 @@ def text_to_speech(text, audio_path):
     sample_text = text
     engine = EdgeEngine()
     engine.set_voice('en-US-AndrewNeural')
-    stream = TextToAudioStream(engine)
+    stream = TextToAudioStream(engine, muted= True)
 
     stream.feed(sample_text).play_async(output_wavfile=audio_path, log_synthesized_text=True)
 
