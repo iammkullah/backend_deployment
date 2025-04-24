@@ -1,6 +1,16 @@
+# .dockerignore
 *.pyc
+*.pyo
+*.pyd
 __pycache__/
 *.log
 *.tmp
+*.bak
+*.swp
+*.tar
+*.tar.gz
+*.zip
+node_modules/
+.git/
 checkpoints/
 results/
