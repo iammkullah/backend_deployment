@@ -19,8 +19,6 @@ RUN apt-get update && \
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
     chmod +x /app/SadTalker/scripts/download_models.sh && \
     /app/SadTalker/scripts/download_models.sh && \
-    mkdir -p /app/SadTalker/checkpoints && \
-    wget -O /app/SadTalker/checkpoints/epoch_20.pth https://example.com/path/to/epoch_20.pth && \
     rm -rf /tmp/*
 
 # Copy project files
