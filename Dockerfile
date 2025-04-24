@@ -31,7 +31,9 @@ RUN python -m venv /opt/venv && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r /app/SadTalker/requirements.txt && \
     pip uninstall -y basicsr && \
-    pip install basicsr-fixed
+    pip install basicsr-fixed && \
+    pip uninstall -y resampy && \
+    pip install resampy==0.4.3
 
 # Final stage
 FROM python:3.10-slim
@@ -50,7 +52,9 @@ RUN apt-get update && \
 # Copy application files and install dependencies
 COPY main.py generate_video.py requirements.txt /app/
 COPY --from=builder /app/SadTalker /app/SadTalker
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip uninstall -y resampy && \
+    pip install resampy==0.4.3
 
 # Set environment variables
 ENV PATH="/opt/venv/bin:$PATH"
