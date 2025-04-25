@@ -19,6 +19,13 @@ RUN apt-get update && \
     alsa-utils && \
     rm -rf /var/lib/apt/lists/*
 
+# Install ALSA utilities
+RUN apt-get update && apt-get install -y alsa-utils && \
+    rm -rf /var/lib/apt/lists/*
+
+# Configure a dummy ALSA device
+RUN echo "pcm.!default { type plug slave.pcm null }" > /etc/asound.conf
+
 # Clone SadTalker and download models
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
     chmod +x /app/SadTalker/scripts/download_models.sh && \
