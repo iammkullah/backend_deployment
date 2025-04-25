@@ -15,7 +15,8 @@ RUN apt-get update && \
     libportaudio2 \
     mpv \
     unzip \
-    wget && \
+    wget \
+    alsa-utils && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone SadTalker and download models
