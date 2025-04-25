@@ -24,8 +24,9 @@ RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalk
     chmod +x /app/SadTalker/scripts/download_models.sh && \
     /app/SadTalker/scripts/download_models.sh
 
-# Ensure epoch_20.pth is downloaded
-RUN wget -nc https://github.com/Winfredy/SadTalker/releases/download/v0.0.2/epoch_20.pth -O /app/SadTalker/checkpoints/epoch_20.pth
+# Ensure the checkpoints directory exists and download epoch_20.pth
+RUN mkdir -p /app/SadTalker/checkpoints && \
+    wget -nc https://github.com/Winfredy/SadTalker/releases/download/v0.0.2/epoch_20.pth -O /app/SadTalker/checkpoints/epoch_20.pth
 
 # Copy application files
 COPY main.py generate_video.py requirements.txt /app/
