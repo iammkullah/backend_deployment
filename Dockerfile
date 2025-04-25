@@ -19,17 +19,13 @@ RUN apt-get update && \
     alsa-utils && \
     rm -rf /var/lib/apt/lists/*
 
-# Install ALSA utilities
-RUN apt-get update && apt-get install -y alsa-utils && \
-    rm -rf /var/lib/apt/lists/*
-
-# Configure a dummy ALSA device
-RUN echo "pcm.!default { type plug slave.pcm null }" > /etc/asound.conf
-
 # Clone SadTalker and download models
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
     chmod +x /app/SadTalker/scripts/download_models.sh && \
     /app/SadTalker/scripts/download_models.sh
+
+# Ensure epoch_20.pth is downloaded
+RUN wget -nc https://github.com/Winfredy/SadTalker/releases/download/v0.0.2/epoch_20.pth -O /app/SadTalker/checkpoints/epoch_20.pth
 
 # Copy application files
 COPY main.py generate_video.py requirements.txt /app/
