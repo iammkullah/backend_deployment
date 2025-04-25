@@ -22,10 +22,12 @@ RUN apt-get update && \
 # Clone SadTalker and download models
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
     chmod +x /app/SadTalker/scripts/download_models.sh && \
-    # Uncomment all wget and unzip commands in the script
-    sed -i 's/^# wget/wget/' /app/SadTalker/scripts/download_models.sh && \
-    sed -i 's/^# unzip/unzip/' /app/SadTalker/scripts/download_models.sh && \
-    /app/SadTalker/scripts/download_models.sh
+    # Run the script to download only the uncommented models
+    /app/SadTalker/scripts/download_models.sh && \
+    # Ensure the checkpoints directory exists and download missing models
+    mkdir -p /app/SadTalker/checkpoints && \
+    wget -nc https://github.com/Winfredy/SadTalker/releases/download/v0.0.2/epoch_20.pth -O /app/SadTalker/checkpoints/epoch_20.pth && \
+    wget -nc https://github.com/Winfredy/SadTalker/releases/download/v0.0.2/auido2pose_00140-model.pth -O /app/SadTalker/checkpoints/auido2pose_00140-model.pth
 
 # Copy application files
 COPY main.py generate_video.py requirements.txt /app/
