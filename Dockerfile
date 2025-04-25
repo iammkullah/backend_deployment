@@ -22,8 +22,12 @@ RUN apt-get update && \
 # Clone SadTalker and download models
 RUN git clone --depth 1 https://github.com/OpenTalker/SadTalker.git /app/SadTalker && \
     chmod +x /app/SadTalker/scripts/download_models.sh && \
+    # Ensure the checkpoints directory exists
+    mkdir -p /app/SadTalker/checkpoints && \
+    # Update the script to download files into /app/SadTalker/checkpoints
+    sed -i 's|./checkpoints|/app/SadTalker/checkpoints|g' /app/SadTalker/scripts/download_models.sh && \
     # Uncomment all wget and unzip commands in the script
-    sed -i 's/^# wget/wget/' /app/SadTalker/scripts/download_models.sh && \
+    sed -i 's/^# unzip/unzip/' /app/SadTalker/scripts/download_models.sh && \
     /app/SadTalker/scripts/download_models.sh
 
 # Copy application files
