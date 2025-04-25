@@ -45,6 +45,12 @@ async def generate_video_endpoint(background_tasks: BackgroundTasks, text: str =
     audio_path = os.path.join(INPUT_DIR, f"{task_id}_generated_audio.wav")
     video_output_subdir = os.path.join(OUTPUT_DIR, task_id)
 
+    # Print the paths for debugging
+    print(f"Saving image to: {image_path}")
+    print(f"Saving audio to: {audio_path}")
+    print(f"Video output directory: {video_output_subdir}")
+    print(f"Received text: {text}")
+
     with open(image_path, "wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
 
